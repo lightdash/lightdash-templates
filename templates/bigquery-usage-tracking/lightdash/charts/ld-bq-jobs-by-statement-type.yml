@@ -1,0 +1,54 @@
+name: Jobs by Statement Type
+description: "Shows the count of jobs split by different statement types in Big Query. "
+tableName: big_query_jobs
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_statement_type
+  metrics:
+    - big_query_jobs_job_id_count_distinct_of_job_id
+  filters: {}
+  sorts:
+    - fieldId: big_query_jobs_statement_type
+      descending: false
+  limit: 500
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: job_id_count_distinct_of_job_id
+      label: Count distinct of Job id
+      description: "Count distinct of Job id on the table Big query costs "
+      sql: ${TABLE}.job_id
+      table: big_query_jobs
+      type: count_distinct
+      baseDimensionName: job_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: pie
+  config:
+    isDonut: true
+    metricId: big_query_jobs_job_id_count_distinct_of_job_id
+    showValue: false
+    showLegend: true
+    valueLabel: hidden
+    groupFieldIds:
+      - big_query_jobs_statement_type
+    legendPosition: horizontal
+    showPercentage: true
+    groupSortOverrides: []
+    groupColorOverrides: {}
+    groupLabelOverrides: {}
+    legendMaxItemLength: 30
+    groupValueOptionOverrides: {}
+dashboardSlug: ld-bq-bigquery-usage-tracking
+spaceSlug: templates
+slug: ld-bq-jobs-by-statement-type
+tableConfig:
+  columnOrder:
+    - big_query_jobs_statement_type
+    - big_query_jobs_job_id_count_distinct_of_job_id
+version: 1

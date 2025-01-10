@@ -1,0 +1,97 @@
+name: Billed GiB by Statement Type
+description: >-
+  Shows the count of Billed GiB split by different statement types in Big
+  Query. 
+tableName: big_query_jobs
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_statement_type
+  metrics:
+    - big_query_jobs_total_bytes_billed_sum_of_total_bytes_billed
+  filters:
+    metrics:
+      id: 83c23b38-7828-4298-b6b2-b5c4128e15d6
+      and:
+        - id: 981ec49b-5192-4f1f-aef6-51eb1dd21cb5
+          target:
+            fieldId: big_query_jobs_total_bytes_billed_billed_g_b
+          values:
+            - 0
+          operator: greaterThan
+  sorts:
+    - fieldId: big_query_jobs_statement_type
+      descending: false
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: billed_gi_b
+      displayName: Billed GiB
+      sql: >-
+        ${big_query_jobs.total_bytes_billed_sum_of_total_bytes_billed}/1000000000
+      format:
+        type: number
+        round: 0
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: job_id_count_distinct_of_job_id
+      label: Count distinct of Job id
+      description: "Count distinct of Job id on the table Big query costs "
+      sql: ${TABLE}.job_id
+      table: big_query_jobs
+      type: count_distinct
+      baseDimensionName: job_id
+      formatOptions:
+        type: default
+        separator: default
+    - name: total_bytes_billed_billed_g_b
+      label: Billed GB
+      description: "Sum of Total bytes billed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_billed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_billed
+      formatOptions:
+        type: number
+        round: 0
+        separator: default
+    - name: total_bytes_billed_sum_of_total_bytes_billed
+      label: Sum of Total bytes billed
+      description: "Sum of Total bytes billed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_billed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_billed
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: pie
+  config:
+    isDonut: true
+    metricId: billed_gi_b
+    showValue: false
+    showLegend: true
+    valueLabel: hidden
+    groupFieldIds:
+      - big_query_jobs_statement_type
+    legendPosition: horizontal
+    showPercentage: true
+    groupSortOverrides: []
+    groupColorOverrides: {}
+    groupLabelOverrides: {}
+    legendMaxItemLength: 30
+    groupValueOptionOverrides: {}
+dashboardSlug: ld-bq-bigquery-usage-tracking
+spaceSlug: templates
+slug: ld-bq-billed-gib-by-statement-type
+tableConfig:
+  columnOrder:
+    - big_query_jobs_statement_type
+    - big_query_jobs_total_bytes_billed_sum_of_total_bytes_billed
+    - billed_gi_b
+version: 1

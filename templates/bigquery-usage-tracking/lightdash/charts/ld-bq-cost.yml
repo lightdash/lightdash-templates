@@ -1,0 +1,74 @@
+name: Cost
+description: >-
+  Shows the incurred cost for the latest completed month and compares the month
+  previous
+tableName: big_query_jobs
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_creation_time_month
+  metrics:
+    - big_query_jobs_total_bytes_billed_total_bytes_billed
+  filters:
+    dimensions:
+      id: b483aa61-de6a-44b6-b913-12a84bdd85c5
+      and:
+        - id: 686a25d2-6053-40f7-9143-68c3aa386f3d
+          target:
+            fieldId: big_query_jobs_creation_time_month
+          values:
+            - 1
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: months
+  sorts:
+    - fieldId: big_query_jobs_creation_time_month
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: total_cost
+      displayName: Total Cost
+      sql: >-
+        (${big_query_jobs.total_bytes_billed_total_bytes_billed}/
+        1000000000000) * 6.25
+      format:
+        type: currency
+        round: 2
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: total_bytes_billed_total_bytes_billed
+      label: Total bytes billed
+      description: "Sum of Total bytes billed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_billed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_billed
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    label: Latest Completed Month Compute Cost
+    flipColors: true
+    selectedField: total_cost
+    showComparison: true
+    comparisonLabel: Previous Month
+    comparisonFormat: raw
+    showBigNumberLabel: true
+dashboardSlug: ld-bq-bigquery-usage-tracking
+spaceSlug: templates
+slug: ld-bq-cost
+tableConfig:
+  columnOrder:
+    - big_query_jobs_creation_time_month
+    - big_query_jobs_total_bytes_billed_total_bytes_billed
+    - total_cost
+version: 1

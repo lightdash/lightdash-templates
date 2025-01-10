@@ -1,0 +1,72 @@
+name: Billed GiB
+description: >-
+  Shows the Billed GiB for the latest completed month and compares the month
+  previous
+tableName: big_query_jobs
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_creation_time_month
+  metrics:
+    - big_query_jobs_total_bytes_billed_total_bytes_billed
+  filters:
+    dimensions:
+      id: 03932f84-152b-4b17-bda6-cd7664337efa
+      and:
+        - id: aba9f6d1-002d-4143-960b-6fb6a0518c19
+          target:
+            fieldId: big_query_jobs_creation_time_month
+          values:
+            - 1
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: months
+  sorts:
+    - fieldId: big_query_jobs_creation_time_month
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: billed_gi_b_1
+      displayName: Billed GiB
+      sql: (${big_query_jobs.total_bytes_billed_total_bytes_billed}/ 1000000000)
+      format:
+        type: number
+        round: 0
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: total_bytes_billed_total_bytes_billed
+      label: Total bytes billed
+      description: "Sum of Total bytes billed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_billed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_billed
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    label: Latest Completed Month Billed GiB
+    flipColors: true
+    selectedField: billed_gi_b_1
+    showComparison: true
+    comparisonLabel: Previous Month
+    comparisonFormat: raw
+    showBigNumberLabel: true
+dashboardSlug: ld-bq-bigquery-usage-tracking
+spaceSlug: templates
+slug: ld-bq-billed-gib
+tableConfig:
+  columnOrder:
+    - big_query_jobs_creation_time_month
+    - big_query_jobs_total_bytes_billed_total_bytes_billed
+    - billed_gi_b_1
+version: 1
