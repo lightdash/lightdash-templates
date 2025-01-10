@@ -1,0 +1,127 @@
+name: BigQuery Usage Tracking
+description: >-
+  This dashboard is designed to give you an overview of BigQuery usage,
+  including an estimate of total costs.
+updatedAt: "2025-01-01T00:00:00.000Z"
+
+tiles:
+  - x: 0
+    y: 0
+    h: 4
+    w: 18
+    type: markdown
+    properties:
+      title: 📊 Big Query Usage
+      content: >
+        This dashboard is designed to give you an overview of BigQuery usage.
+
+
+        💵 **Costs are estimated and assume a static price per byte billed**.
+        They don't include storage or compute costs. You can find details about
+        BigQuery pricing [here](https://cloud.google.com/bigquery/pricing).
+
+
+        Data is retrieved from the BigQuery information schema, you can find
+        details of the underlying data
+        [here](https://cloud.google.com/bigquery/docs/information-schema-jobs).
+
+  - x: 0
+    y: 12
+    h: 8
+    w: 22
+    type: saved_chart
+    properties:
+      belongsToDashboard: false
+      chartName: Big Query Usage
+      chartSlug: ld-bq-big-query-usage
+      
+  - x: 19
+    y: 4
+    h: 8
+    w: 17
+    type: saved_chart
+    properties:
+      belongsToDashboard: false
+      chartName: Big Query Costs
+      chartSlug: ld-bq-big-query-costs
+
+  - x: 0
+    y: 4
+    h: 8
+    w: 10
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Jobs by Statement Type
+      chartSlug: ld-bq-jobs-by-statement-type
+
+  - x: 22
+    y: 12
+    h: 8
+    w: 14
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Top Users
+      chartSlug: ld-bq-top-users
+
+  - x: 18
+    y: 0
+    h: 4
+    w: 6
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Cost
+      chartSlug: ld-bq-cost
+
+  - x: 30
+    y: 0
+    h: 4
+    w: 6
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Jobs Ran
+      chartSlug: ld-bq-jobs-ran
+
+  - x: 10
+    y: 4
+    h: 8
+    w: 9
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Billed GiB by Statement Type
+      chartSlug: ld-bq-billed-gib-by-statement-type
+
+  - x: 24
+    y: 0
+    h: 4
+    w: 6
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Billed GiB
+      chartSlug: ld-bq-billed-gib
+
+filters:
+  metrics: []
+  dimensions:
+    - id: fbe86450-4f87-4445-94df-513ba88cf8b7 
+      target:
+        fieldId: big_query_jobs_creation_time
+        fieldName: creation_time
+        tableName: big_query_jobs
+      values:
+        - 90
+      operator: inThePast
+      settings:
+        completed: false
+        unitOfTime: days
+  tableCalculations: []
+
+tabs: []
+spaceSlug: templates
+slug: ld-bq-bigquery-usage-tracking
+version: 1

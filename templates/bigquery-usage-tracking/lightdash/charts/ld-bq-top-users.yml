@@ -1,0 +1,90 @@
+name: Top Users
+description: The top 50 BigQuery users by email, ordered by their total GiB billed
+tableName: big_query_jobs
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_user_email
+  metrics:
+    - big_query_jobs_total_bytes_billed_total_bytes_billed
+    - big_query_jobs_job_id_count_of_jobs
+  filters: {}
+  sorts:
+    - fieldId: big_query_jobs_total_bytes_billed_total_bytes_billed
+      descending: true
+  limit: 50
+  metricOverrides: {}
+  tableCalculations:
+    - name: total_gi_b_billed
+      displayName: Total GiB billed
+      sql: ${big_query_jobs.total_bytes_billed_total_bytes_billed} / 1000000000
+      format:
+        type: number
+        round: 0
+        separator: default
+      type: number
+    - name: total_cost
+      displayName: Total Cost
+      sql: >-
+        (${big_query_jobs.total_bytes_billed_total_bytes_billed} /
+        1000000000000) * 6.25
+      format:
+        type: currency
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: total_bytes_billed_total_bytes_billed
+      label: Total bytes billed
+      description: "Sum of Total bytes billed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_billed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_billed
+      formatOptions:
+        type: default
+        separator: default
+    - name: job_id_count_of_jobs
+      label: Count of Jobs
+      description: "Count distinct of Job id on the table Big query costs "
+      sql: ${TABLE}.job_id
+      table: big_query_jobs
+      type: count_distinct
+      baseDimensionName: job_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: table
+  config:
+    columns:
+      big_query_jobs_total_bytes_billed_total_bytes_billed:
+        visible: false
+    metricsAsRows: false
+    showSubtotals: false
+    hideRowNumbers: false
+    showTableNames: false
+    showResultsTotal: false
+    showRowCalculation: false
+    showColumnCalculation: false
+    conditionalFormattings:
+      - color: "#7262FF"
+        rules:
+          - id: 78575e4f-2db7-41f2-9959-db9f92a0133f
+            values: []
+            operator: equals
+        target:
+          fieldId: big_query_jobs_total_bytes_billed_total_bytes_billed
+dashboardSlug: ld-bq-bigquery-usage-tracking
+slug: ld-bq-top-users
+spaceSlug: templates
+tableConfig:
+  columnOrder:
+    - big_query_jobs_user_email
+    - big_query_jobs_total_bytes_billed_total_bytes_billed
+    - total_gi_b_billed
+    - total_cost
+    - big_query_jobs_job_id_count_of_jobs
+version: 1

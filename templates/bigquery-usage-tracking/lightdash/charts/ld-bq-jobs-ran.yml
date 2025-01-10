@@ -1,0 +1,72 @@
+name: Jobs Ran
+description: >-
+  Shows the total number of jobs ran for the latest completed month and compares
+  the month previous
+tableName: big_query_jobs
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_creation_time_month
+  metrics:
+    - big_query_jobs_job_id_total_jobs
+  filters:
+    dimensions:
+      id: 60317ac1-5505-4dd1-89f6-d9cf53c11a52
+      and:
+        - id: 5ef319b5-d4c9-430a-8e63-4989d9a4eea9
+          target:
+            fieldId: big_query_jobs_creation_time_month
+          values:
+            - 1
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: months
+  sorts:
+    - fieldId: big_query_jobs_creation_time_month
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: total_bytes_billed_total_bytes_billed
+      label: Total bytes billed
+      description: "Sum of Total bytes billed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_billed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_billed
+      formatOptions:
+        type: default
+        separator: default
+    - name: job_id_total_jobs
+      label: Total Jobs
+      description: "Count distinct of Job id on the table Big query costs "
+      sql: ${TABLE}.job_id
+      table: big_query_jobs
+      type: count_distinct
+      baseDimensionName: job_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    label: Latest Completed Month Jobs Ran
+    flipColors: false
+    selectedField: big_query_jobs_job_id_total_jobs
+    showComparison: true
+    comparisonLabel: Previous Month
+    comparisonFormat: raw
+    showBigNumberLabel: true
+dashboardSlug: ld-bq-bigquery-usage-tracking
+spaceSlug: templates
+slug: ld-bq-jobs-ran
+tableConfig:
+  columnOrder:
+    - big_query_jobs_creation_time_month
+    - big_query_jobs_job_id_total_jobs
+version: 1

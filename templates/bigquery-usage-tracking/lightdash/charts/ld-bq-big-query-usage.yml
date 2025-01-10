@@ -1,0 +1,107 @@
+name: Big Query Usage
+description: >-
+  Shows the total unique jobs ran by BigQuery, and the number of GiBs scanned by
+  those jobs.
+tableName: big_query_jobs
+updatedAt: "2025-01-10T14:40:22.220Z"
+metricQuery:
+  exploreName: big_query_jobs
+  dimensions:
+    - big_query_jobs_creation_time_day
+  metrics:
+    - big_query_jobs_job_id_count_of_jobs
+    - big_query_jobs_total_bytes_processed_total_bytes_billed
+  filters:
+    dimensions:
+      id: b5fd4ff3-be33-485b-92ae-f1d4bad5750d
+      and:
+        - id: 9c70204e-48c3-4f5e-8a5e-0c7890e5190c
+          target:
+            fieldId: big_query_jobs_creation_time_day
+          values:
+            - 0
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: days
+  sorts:
+    - fieldId: big_query_jobs_creation_time_day
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: billed_gi_b
+      displayName: Billed GiB
+      sql: ${big_query_jobs.total_bytes_processed_total_bytes_billed}/1000000000
+      format:
+        type: number
+        round: 0
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: job_id_count_of_jobs
+      label: Count of Jobs
+      description: "Count distinct of Job id on the table Big query costs "
+      sql: ${TABLE}.job_id
+      table: big_query_jobs
+      type: count_distinct
+      baseDimensionName: job_id
+      formatOptions:
+        type: default
+        separator: default
+    - name: total_bytes_processed_total_bytes_billed
+      label: Total bytes billed
+      description: "Sum of Total bytes processed on the table Big query costs "
+      sql: ${TABLE}.total_bytes_processed
+      table: big_query_jobs
+      type: sum
+      baseDimensionName: total_bytes_processed
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: big_query_jobs_creation_time_day
+      yField:
+        - big_query_jobs_job_id_count_of_jobs
+        - billed_gi_b
+      showGridX: false
+    eChartsConfig:
+      yAxis:
+        - name: Jobs
+        - name: Gigabytes
+      legend:
+        show: true
+        type: plain
+        orient: horizontal
+      series:
+        - type: line
+          color: "#7262FF"
+          encode:
+            xRef:
+              field: big_query_jobs_creation_time_day
+            yRef:
+              field: big_query_jobs_job_id_count_of_jobs
+          yAxisIndex: 0
+        - type: bar
+          encode:
+            xRef:
+              field: big_query_jobs_creation_time_day
+            yRef:
+              field: billed_gi_b
+          yAxisIndex: 1
+dashboardSlug: ld-bq-bigquery-usage-tracking
+spaceSlug: templates
+slug: ld-bq-big-query-usage
+tableConfig:
+  columnOrder:
+    - big_query_jobs_creation_time_day
+    - big_query_jobs_job_id_count_of_jobs
+    - big_query_jobs_total_bytes_processed_total_bytes_billed
+    - billed_gi_b
+version: 1
