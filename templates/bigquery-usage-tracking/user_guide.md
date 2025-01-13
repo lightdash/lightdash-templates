@@ -45,13 +45,14 @@ Once you have an underlying model that returns your BigQuery jobs information, f
    
 
 3. **Set Up the Lightdash CLI**  
-   Ensure you are logged into the Lightdash CLI and the correct project is selected using `lightdash config set-project`. This is where your object will be created.
+   Ensure you are logged into the Lightdash CLI using `lightdash login`
 
 4. **Upload the Template**  
    Use the following command to upload the BigQuery dashboard and charts:
    ```bash
    lightdash upload --force --dashboards ld-bq-bigquery-usage-tracking --charts ld-bq-jobs-ran ld-bq-top-users ld-bq-jobs-by-statement-type ld-bq-cost ld-bq-billed-gib ld-bq-billed-gib-by-statement-type ld-bq-big-query-usage ld-bq-big-query-costs
    ```
+   Optionally, you can also include the argument `--project <uuid1>` to upload directly to a specific project within your organization. If not supplied the current option selected via the CLI will be the target for the new content.
 
 ## Adjusting the BigQuery Template
 
