@@ -1,0 +1,54 @@
+name: Event Count
+description: The Count of all selected Events that were sent
+tableName: events
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: events
+  dimensions:
+    - events_timestamp_day
+  metrics:
+    - events_id_event_count
+  filters: {}
+  sorts:
+    - fieldId: events_timestamp_day
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: id_event_count
+      label: Event Count
+      description: "Count distinct of Id on the events table"
+      sql: ${TABLE}.id
+      table: events
+      type: count_distinct
+      baseDimensionName: id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: events_timestamp_day
+      yField:
+        - events_id_event_count
+      flipAxes: false
+    eChartsConfig:
+      series:
+        - type: line
+          encode:
+            xRef:
+              field: events_timestamp_day
+            yRef:
+              field: events_id_event_count
+          yAxisIndex: 0
+tableConfig:
+  columnOrder:
+    - events_timestamp_day
+    - events_id_event_count
+dashboardSlug: ld-ee-events-explorer
+spaceSlug: templates
+slug: ld-ee-event-counts
+version: 1
