@@ -1,0 +1,54 @@
+name: User Counts
+description: >-
+  The Count of Distinct Users that triggered any selected Event during the given
+  time period
+tableName: events
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: events
+  dimensions:
+    - events_timestamp_day
+  metrics:
+    - events_user_id_user_count
+  filters: {}
+  sorts: []
+  limit: 500
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: user_id_user_count
+      label: User Count
+      description: "Count distinct of User Id on the events table"
+      sql: ${TABLE}.user_id
+      table: events
+      type: count_distinct
+      baseDimensionName: user_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: events_timestamp_day
+      yField:
+        - events_user_id_user_count
+      flipAxes: false
+    eChartsConfig:
+      series:
+        - type: line
+          encode:
+            xRef:
+              field: events_timestamp_day
+            yRef:
+              field: events_user_id_user_count
+          yAxisIndex: 0
+tableConfig:
+  columnOrder:
+    - events_timestamp_day
+    - events_user_id_user_count
+dashboardSlug: ld-ee-events-explorer
+spaceSlug: templates
+slug: ld-ee-user-counts
+version: 1

@@ -1,0 +1,49 @@
+name: Event Counts by Popularity
+description: Shows the top 50 most triggered events on the platform
+tableName: events
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: events
+  dimensions:
+    - events_event
+  metrics:
+    - events_id_event_count
+  filters: {}
+  sorts:
+    - fieldId: events_id_event_count
+      descending: true
+  limit: 50
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: id_event_count
+      label: Event Count
+      description: "Count distinct of Id on the events table"
+      sql: ${TABLE}.id
+      table: events
+      type: count_distinct
+      baseDimensionName: id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: table
+  config:
+    columns: {}
+    metricsAsRows: false
+    showSubtotals: false
+    hideRowNumbers: false
+    showTableNames: false
+    showResultsTotal: false
+    showRowCalculation: false
+    showColumnCalculation: false
+    conditionalFormattings: []
+tableConfig:
+  columnOrder:
+    - events_event
+    - events_id_event_count
+dashboardSlug: ld-ee-events-explorer
+spaceSlug: templates
+slug: ld-ee-event-counts-by-popularity
+version: 1

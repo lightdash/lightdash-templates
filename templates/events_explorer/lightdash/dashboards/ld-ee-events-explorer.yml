@@ -1,0 +1,101 @@
+name: Events Explorer
+description: This dashboard is designed to give you an overview of all the events being sent to the data warehouse.
+updatedAt: "2025-01-01T00:00:00.000Z"
+
+tiles:
+  - x: 0
+    y: 0
+    h: 7
+    w: 6
+    type: markdown
+    properties:
+      title: 🔎 Events Explorer
+      hideTitle: false
+      content: >-
+        This dashboard is designed to give you an overview of all the events
+        being sent to the data warehouse. 
+
+
+        **You can view overall event numbers, or use the filters provided above
+        to explore either a single event or collection of different events 🧭.**
+
+
+        Don't forget, you can click into individual charts and then explore from
+        there if you want to dive deeper into your analysis 🤿.
+
+  - x: 24
+    y: 10
+    h: 7
+    w: 12
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Event Counts by Popularity
+      chartSlug: ld-ee-event-counts-by-popularity
+
+  - x: 6
+    y: 0
+    h: 7
+    w: 18
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Event Counts
+      chartSlug: ld-ee-event-counts
+
+  - x: 24
+    y: 0
+    h: 10
+    w: 12
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: User Funnel
+      chartSlug: ld-ee-user-funnel
+
+  - x: 0
+    y: 7
+    h: 10
+    w: 24
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: User Counts
+      chartSlug: ld-ee-user-counts
+
+filters:
+  metrics: []
+  dimensions:
+    - id: 044677d7-b337-4f37-b20c-d89be7f77972
+      target:
+        fieldId: events_timestamp_day
+        fieldName: timestamp_day
+        tableName: events
+      values:
+        - 6
+      disabled: false
+      operator: inThePast
+      settings:
+        completed: false
+        unitOfTime: months
+      tileTargets: {}
+    - id: ccaec967-a015-423b-aaf8-8ffd2958f313
+      target:
+        fieldId: events_event
+        fieldName: event
+        tableName: events
+      values: []
+      disabled: true
+      operator: equals
+      tileTargets:
+        0679a20b-89bb-447f-95bd-7865316f1d5f: false
+        43fe9ee5-74cd-41f7-b17c-9a6792437b6d:
+          fieldId: events_event
+          tableName: events
+        4e6ce463-c489-4ea6-8249-29baf56196f9: false
+  tableCalculations: []
+
+tabs: []
+spaceSlug: templates
+slug: ld-ee-events-explorer
+version: 1

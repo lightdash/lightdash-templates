@@ -1,0 +1,64 @@
+name: User Funnel
+description: Shows the Count of Distinct Users that triggered a given Event at each step
+tableName: events
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: events
+  dimensions:
+    - events_event
+  metrics:
+    - events_user_id_user_count
+  filters:
+    dimensions:
+      id: 3531eca4-dfba-48e3-9742-6e316b66ead2
+      and:
+        - id: f272c583-8b8a-49cd-8ffc-4486dc400141
+          target:
+            fieldId: events_event
+          values: # These four values need to be changed to relevant events. You can enter as many or as little as you like.
+            - user_created 
+            - user_checkout_started
+            - user_purchase
+            - user_logged_in
+          operator: equals
+          required: false
+  sorts:
+    - fieldId: events_user_id_user_count
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: user_id_user_count
+      label: User Count
+      description: "Count distinct of User Id on the events table"
+      sql: ${TABLE}.user_id
+      table: events
+      type: count_distinct
+      baseDimensionName: user_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: funnel
+  config:
+    labels:
+      position: inside
+      showValue: false
+      showPercentage: true
+    fieldId: events_user_id_user_count
+    dataInput: column
+    showLegend: false
+    colorOverrides: {}
+    labelOverrides: {}
+    legendPosition: horizontal
+tableConfig:
+  columnOrder:
+    - events_event
+    - events_user_id_user_count
+dashboardSlug: ld-ee-events-explorer
+spaceSlug: templates
+slug: ld-ee-user-funnel
+version: 1
+
