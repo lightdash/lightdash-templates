@@ -53,7 +53,7 @@ Once you have an underlying model that returns your Events data, follow these st
 4. **Upload the Template**  
    Use the following command to upload the BigQuery dashboard and charts:
    ```bash
-   lightdash upload --force -dashboards ld-ee-events-explorer -charts ld-ee-event-counts-by-popularity ld-ee-event-counts ld-ee-user-counts ld-ee-user-funnel
+   lightdash upload --force --dashboards ld-ee-events-explorer --charts ld-ee-event-counts-by-popularity ld-ee-event-counts ld-ee-user-counts ld-ee-user-funnel
    ```
    Optionally, you can also include the argument `--project <uuid1>` to upload directly to a specific project within your organization. If not supplied the current option selected via the CLI will be the target for the new content.
 
