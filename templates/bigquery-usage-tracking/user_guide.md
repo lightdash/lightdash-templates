@@ -14,15 +14,15 @@
      )
    }}
 
-   select * from `region-us`.`information_schema`.`jobs`
+   select * from `project-name.region-us`.INFORMATION_SCHEMA.JOBS
    ```
 
    > **Note**: Replace `region-us` with your region. Refer to the [BigQuery documentation](https://cloud.google.com/bigquery/docs/information-schema-jobs) for details.
 
 2. **Generate a YAML File**  
-   Use the Lightdash CLI to generate a YAML file for the BigQuery model:
+   Use the Lightdash CLI to create the table and generate a YAML file for the BigQuery model:
    ```bash
-   lightdash generate -s big_query_jobs
+   lightdash dbt run -s big_query_jobs
    ```
 
    Avoid changing any column names for the smoothest experience implementing the template.
