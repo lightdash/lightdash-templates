@@ -29,12 +29,15 @@
 
    > **Note**: No metrics need to be defined here. Metrics will be created as part of the template.
 
+3. **Deploy your changes to Lightdash**
+   The model you've just created needs to exist as a Table in Lightdash for the template to work (otherwise, you'll get an error saying `Explore "big_query_jobs" does not exist.` in your dashboard). Before uploading the charts and dashboard from the template below, you'll need to deploy your new `big_query_jobs` model to Lightdash. 
+
 ## Using the Template
 
 Once you have an underlying model that returns your BigQuery jobs information, follow these steps to use the template:
 
 1. **Download the Template**  
-   Download the `lightdash` folder from the relevant section in the `lightdash-templates` repository.
+   Download the `lightdash` folder from the relevant section in the `lightdash-templates` repository. You can clone the repository by running `git clone git@github.com:lightdash/lightdash-templates.git`.
 
 2. **Copy the Template**  
    Copy the `lightdash` folder into the root of your dbt directory. 
@@ -47,7 +50,9 @@ Once you have an underlying model that returns your BigQuery jobs information, f
 3. **Set Up the Lightdash CLI**  
    Ensure you are logged into the Lightdash CLI using `lightdash login`
 
-4. **Upload the Template**  
+4. **Upload the Template**
+   Navigate to the directory where the `lightdash` folder with the charts and dashboards is located.
+   
    Use the following command to upload the BigQuery dashboard and charts:
    ```bash
    lightdash upload --force --dashboards ld-bq-bigquery-usage-tracking --charts ld-bq-jobs-ran ld-bq-top-users ld-bq-jobs-by-statement-type ld-bq-cost ld-bq-billed-gib ld-bq-billed-gib-by-statement-type ld-bq-big-query-usage ld-bq-big-query-costs
