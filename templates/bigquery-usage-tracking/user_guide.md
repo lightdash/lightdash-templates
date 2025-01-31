@@ -59,6 +59,9 @@ Once you have an underlying model that returns your BigQuery jobs information, f
    ```
    Optionally, you can also include the argument `--project <uuid1>` to upload directly to a specific project within your organization. If not supplied the current option selected via the CLI will be the target for the new content.
 
+5. **Open Lightdash to see your new dashboard**
+   Your new dashboard for BigQuery usage (`BigQuery Usage Tracking`) should now appear in your Lightdash project in a new space called `Templates`. Magic.
+
 ## Adjusting the BigQuery Template
 
 The template consists of a dashboard file and multiple chart files. Before uploading, you need to make the following adjustments:
