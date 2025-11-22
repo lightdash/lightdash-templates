@@ -1,0 +1,96 @@
+name: Bytes Scanned by Statement Type
+description: >-
+  Shows the count of Bytes Scanned (in GiB) split by different statement types in Snowflake.
+tableName: snowflake_query_history
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_query_type
+  metrics:
+    - snowflake_query_history_bytes_scanned_sum_of_bytes_scanned
+  filters:
+    metrics:
+      id: 83c23b38-7828-4298-b6b2-b5c4128e15d6
+      and:
+        - id: 981ec49b-5192-4f1f-aef6-51eb1dd21cb5
+          target:
+            fieldId: snowflake_query_history_bytes_scanned_scanned_g_b
+          values:
+            - 0
+          operator: greaterThan
+  sorts:
+    - fieldId: snowflake_query_history_query_type
+      descending: false
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: scanned_gi_b
+      displayName: Scanned GiB
+      sql: >-
+        ${snowflake_query_history.bytes_scanned_sum_of_bytes_scanned}/1000000000
+      format:
+        type: number
+        round: 0
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: query_id_count_distinct_of_query_id
+      label: Count distinct of Query id
+      description: "Count distinct of Query id on the table Snowflake query history "
+      sql: ${TABLE}.query_id
+      table: snowflake_query_history
+      type: count_distinct
+      baseDimensionName: query_id
+      formatOptions:
+        type: default
+        separator: default
+    - name: bytes_scanned_scanned_g_b
+      label: Scanned GB
+      description: "Sum of Bytes scanned on the table Snowflake query history "
+      sql: ${TABLE}.bytes_scanned
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: bytes_scanned
+      formatOptions:
+        type: number
+        round: 0
+        separator: default
+    - name: bytes_scanned_sum_of_bytes_scanned
+      label: Sum of Bytes scanned
+      description: "Sum of Bytes scanned on the table Snowflake query history "
+      sql: ${TABLE}.bytes_scanned
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: bytes_scanned
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: pie
+  config:
+    isDonut: true
+    metricId: scanned_gi_b
+    showValue: false
+    showLegend: true
+    valueLabel: hidden
+    groupFieldIds:
+      - snowflake_query_history_query_type
+    legendPosition: horizontal
+    showPercentage: true
+    groupSortOverrides: []
+    groupColorOverrides: {}
+    groupLabelOverrides: {}
+    legendMaxItemLength: 30
+    groupValueOptionOverrides: {}
+dashboardSlug: ld-sf-snowflake-usage-tracking
+spaceSlug: templates
+slug: ld-sf-bytes-scanned-by-statement-type
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_query_type
+    - snowflake_query_history_bytes_scanned_sum_of_bytes_scanned
+    - scanned_gi_b
+version: 1

@@ -1,0 +1,72 @@
+name: Queries Ran
+description: >-
+  Shows the total number of queries ran for the latest completed month and compares
+  the month previous
+tableName: snowflake_query_history
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_start_time_month
+  metrics:
+    - snowflake_query_history_query_id_total_queries
+  filters:
+    dimensions:
+      id: 60317ac1-5505-4dd1-89f6-d9cf53c11a52
+      and:
+        - id: 5ef319b5-d4c9-430a-8e63-4989d9a4eea9
+          target:
+            fieldId: snowflake_query_history_start_time_month
+          values:
+            - 1
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: months
+  sorts:
+    - fieldId: snowflake_query_history_start_time_month
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations: []
+  additionalMetrics:
+    - name: bytes_scanned_total_bytes_scanned
+      label: Total bytes scanned
+      description: "Sum of Bytes scanned on the table Snowflake query history "
+      sql: ${TABLE}.bytes_scanned
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: bytes_scanned
+      formatOptions:
+        type: default
+        separator: default
+    - name: query_id_total_queries
+      label: Total Queries
+      description: "Count distinct of Query id on the table Snowflake query history "
+      sql: ${TABLE}.query_id
+      table: snowflake_query_history
+      type: count_distinct
+      baseDimensionName: query_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    label: Latest Completed Month Queries Ran
+    flipColors: false
+    selectedField: snowflake_query_history_query_id_total_queries
+    showComparison: true
+    comparisonLabel: Previous Month
+    comparisonFormat: raw
+    showBigNumberLabel: true
+dashboardSlug: ld-sf-snowflake-usage-tracking
+spaceSlug: templates
+slug: ld-sf-queries-ran
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_start_time_month
+    - snowflake_query_history_query_id_total_queries
+version: 1

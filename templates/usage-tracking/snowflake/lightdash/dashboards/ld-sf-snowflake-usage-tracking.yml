@@ -1,0 +1,127 @@
+name: Snowflake Usage Tracking
+description: >-
+  This dashboard is designed to give you an overview of Snowflake usage,
+  including an estimate of total costs.
+updatedAt: "2025-01-01T00:00:00.000Z"
+
+tiles:
+  - x: 0
+    y: 0
+    h: 4
+    w: 18
+    type: markdown
+    properties:
+      title: 📊 Snowflake Usage
+      content: >
+        This dashboard is designed to give you an overview of Snowflake usage.
+
+
+        💵 **Costs are estimated and assume a static price per credit**.
+        They don't include storage costs. You can find details about
+        Snowflake pricing [here](https://www.snowflake.com/pricing/).
+
+
+        Data is retrieved from the Snowflake Account Usage schema, you can find
+        details of the underlying data
+        [here](https://docs.snowflake.com/en/sql-reference/account-usage/query_history).
+
+  - x: 0
+    y: 12
+    h: 8
+    w: 22
+    type: saved_chart
+    properties:
+      belongsToDashboard: false
+      chartName: Snowflake Usage
+      chartSlug: ld-sf-snowflake-usage
+
+  - x: 19
+    y: 4
+    h: 8
+    w: 17
+    type: saved_chart
+    properties:
+      belongsToDashboard: false
+      chartName: Snowflake Costs
+      chartSlug: ld-sf-snowflake-costs
+
+  - x: 0
+    y: 4
+    h: 8
+    w: 10
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Queries by Statement Type
+      chartSlug: ld-sf-queries-by-statement-type
+
+  - x: 22
+    y: 12
+    h: 8
+    w: 14
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Top Users
+      chartSlug: ld-sf-top-users
+
+  - x: 18
+    y: 0
+    h: 4
+    w: 6
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Credits Used
+      chartSlug: ld-sf-credits-used
+
+  - x: 30
+    y: 0
+    h: 4
+    w: 6
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Queries Ran
+      chartSlug: ld-sf-queries-ran
+
+  - x: 10
+    y: 4
+    h: 8
+    w: 9
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Bytes Scanned by Statement Type
+      chartSlug: ld-sf-bytes-scanned-by-statement-type
+
+  - x: 24
+    y: 0
+    h: 4
+    w: 6
+    type: saved_chart
+    properties:
+      belongsToDashboard: true
+      chartName: Bytes Scanned
+      chartSlug: ld-sf-bytes-scanned
+
+filters:
+  metrics: []
+  dimensions:
+    - id: fbe86450-4f87-4445-94df-513ba88cf8b7
+      target:
+        fieldId: snowflake_query_history_start_time
+        fieldName: start_time
+        tableName: snowflake_query_history
+      values:
+        - 90
+      operator: inThePast
+      settings:
+        completed: false
+        unitOfTime: days
+  tableCalculations: []
+
+tabs: []
+spaceSlug: templates
+slug: ld-sf-snowflake-usage-tracking
+version: 1

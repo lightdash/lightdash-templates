@@ -1,0 +1,73 @@
+name: Credits Used
+description: >-
+  Shows the credits used for the latest completed month and compares the month
+  previous
+tableName: snowflake_query_history
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_start_time_month
+  metrics:
+    - snowflake_query_history_credits_used_cloud_services_total_credits
+  filters:
+    dimensions:
+      id: b483aa61-de6a-44b6-b913-12a84bdd85c5
+      and:
+        - id: 686a25d2-6053-40f7-9143-68c3aa386f3d
+          target:
+            fieldId: snowflake_query_history_start_time_month
+          values:
+            - 1
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: months
+  sorts:
+    - fieldId: snowflake_query_history_start_time_month
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: total_cost
+      displayName: Total Cost
+      sql: >-
+        ${snowflake_query_history.credits_used_cloud_services_total_credits} * 3.0
+      format:
+        type: currency
+        round: 2
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: credits_used_cloud_services_total_credits
+      label: Total credits used
+      description: "Sum of Credits used cloud services on the table Snowflake query history "
+      sql: ${TABLE}.credits_used_cloud_services
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: credits_used_cloud_services
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    label: Latest Completed Month Cost
+    flipColors: true
+    selectedField: total_cost
+    showComparison: true
+    comparisonLabel: Previous Month
+    comparisonFormat: raw
+    showBigNumberLabel: true
+dashboardSlug: ld-sf-snowflake-usage-tracking
+spaceSlug: templates
+slug: ld-sf-credits-used
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_start_time_month
+    - snowflake_query_history_credits_used_cloud_services_total_credits
+    - total_cost
+version: 1

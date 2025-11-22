@@ -1,0 +1,72 @@
+name: Bytes Scanned
+description: >-
+  Shows the Bytes Scanned (in GiB) for the latest completed month and compares the month
+  previous
+tableName: snowflake_query_history
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_start_time_month
+  metrics:
+    - snowflake_query_history_bytes_scanned_total_bytes_scanned
+  filters:
+    dimensions:
+      id: 03932f84-152b-4b17-bda6-cd7664337efa
+      and:
+        - id: aba9f6d1-002d-4143-960b-6fb6a0518c19
+          target:
+            fieldId: snowflake_query_history_start_time_month
+          values:
+            - 1
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: months
+  sorts:
+    - fieldId: snowflake_query_history_start_time_month
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: scanned_gi_b
+      displayName: Scanned GiB
+      sql: (${snowflake_query_history.bytes_scanned_total_bytes_scanned}/ 1000000000)
+      format:
+        type: number
+        round: 0
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: bytes_scanned_total_bytes_scanned
+      label: Total bytes scanned
+      description: "Sum of Bytes scanned on the table Snowflake query history "
+      sql: ${TABLE}.bytes_scanned
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: bytes_scanned
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    label: Latest Completed Month Scanned GiB
+    flipColors: true
+    selectedField: scanned_gi_b
+    showComparison: true
+    comparisonLabel: Previous Month
+    comparisonFormat: raw
+    showBigNumberLabel: true
+dashboardSlug: ld-sf-snowflake-usage-tracking
+spaceSlug: templates
+slug: ld-sf-bytes-scanned
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_start_time_month
+    - snowflake_query_history_bytes_scanned_total_bytes_scanned
+    - scanned_gi_b
+version: 1

@@ -36,11 +36,11 @@
 
 Once you have an underlying model that returns your BigQuery jobs information, follow these steps to use the template:
 
-1. **Download the Template**  
-   Download the `lightdash` folder from the relevant section in the `lightdash-templates` repository. You can clone the repository by running `git clone git@github.com:lightdash/lightdash-templates.git`.
+1. **Download the Template**
+   Download the `bigquery` folder from the `templates/usage-tracking/` section in the `lightdash-templates` repository. You can clone the repository by running `git clone git@github.com:lightdash/lightdash-templates.git`.
 
-2. **Copy the Template**  
-   Copy the `lightdash` folder into the root of your dbt directory. 
+2. **Copy the Template**
+   Copy the `lightdash` folder from `templates/usage-tracking/bigquery/lightdash` into the root of your dbt directory.
 
    > If you already have a lightdash content folder in your dbt project, just copy across the charts and dashboards to the relevant folders.
 

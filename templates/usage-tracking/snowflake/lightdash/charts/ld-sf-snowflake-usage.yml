@@ -1,0 +1,107 @@
+name: Snowflake Usage
+description: >-
+  Shows the total unique queries ran by Snowflake, and the number of GiBs scanned by
+  those queries.
+tableName: snowflake_query_history
+updatedAt: "2025-01-10T14:40:22.220Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_start_time_day
+  metrics:
+    - snowflake_query_history_query_id_count_of_queries
+    - snowflake_query_history_bytes_scanned_total_bytes_scanned
+  filters:
+    dimensions:
+      id: b5fd4ff3-be33-485b-92ae-f1d4bad5750d
+      and:
+        - id: 9c70204e-48c3-4f5e-8a5e-0c7890e5190c
+          target:
+            fieldId: snowflake_query_history_start_time_day
+          values:
+            - 0
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: days
+  sorts:
+    - fieldId: snowflake_query_history_start_time_day
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: scanned_gi_b
+      displayName: Scanned GiB
+      sql: ${snowflake_query_history.bytes_scanned_total_bytes_scanned}/1000000000
+      format:
+        type: number
+        round: 0
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: query_id_count_of_queries
+      label: Count of Queries
+      description: "Count distinct of Query id on the table Snowflake query history "
+      sql: ${TABLE}.query_id
+      table: snowflake_query_history
+      type: count_distinct
+      baseDimensionName: query_id
+      formatOptions:
+        type: default
+        separator: default
+    - name: bytes_scanned_total_bytes_scanned
+      label: Total bytes scanned
+      description: "Sum of Bytes scanned on the table Snowflake query history "
+      sql: ${TABLE}.bytes_scanned
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: bytes_scanned
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: snowflake_query_history_start_time_day
+      yField:
+        - snowflake_query_history_query_id_count_of_queries
+        - scanned_gi_b
+      showGridX: false
+    eChartsConfig:
+      yAxis:
+        - name: Queries
+        - name: Gigabytes
+      legend:
+        show: true
+        type: plain
+        orient: horizontal
+      series:
+        - type: line
+          color: "#7262FF"
+          encode:
+            xRef:
+              field: snowflake_query_history_start_time_day
+            yRef:
+              field: snowflake_query_history_query_id_count_of_queries
+          yAxisIndex: 0
+        - type: bar
+          encode:
+            xRef:
+              field: snowflake_query_history_start_time_day
+            yRef:
+              field: scanned_gi_b
+          yAxisIndex: 1
+dashboardSlug: ld-sf-snowflake-usage-tracking
+spaceSlug: templates
+slug: ld-sf-snowflake-usage
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_start_time_day
+    - snowflake_query_history_query_id_count_of_queries
+    - snowflake_query_history_bytes_scanned_total_bytes_scanned
+    - scanned_gi_b
+version: 1

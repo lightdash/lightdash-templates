@@ -1,0 +1,99 @@
+name: Snowflake Costs
+description: >-
+  Shows the total credits used by Snowflake queries, and the estimated cost.
+tableName: snowflake_query_history
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_start_time_week
+  metrics:
+    - snowflake_query_history_credits_used_cloud_services_total_credits
+  filters:
+    dimensions:
+      id: 1885ca54-f56e-4c23-8a1c-590171d7e7d4
+      and:
+        - id: 9c70204e-48c3-4f5e-8a5e-0c7890e5190c
+          target:
+            fieldId: snowflake_query_history_start_time_day
+          values:
+            - 0
+          operator: notInTheCurrent
+          required: false
+          settings:
+            completed: false
+            unitOfTime: days
+  sorts:
+    - fieldId: snowflake_query_history_start_time_week
+      descending: true
+  limit: 500
+  metricOverrides: {}
+  tableCalculations:
+    - name: cost
+      displayName: Cost
+      sql: >-
+        ${snowflake_query_history.credits_used_cloud_services_total_credits} * 3.0
+      format:
+        type: currency
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: query_id_count_of_queries
+      label: Count of Queries
+      description: "Count distinct of Query id on the table Snowflake query history "
+      sql: ${TABLE}.query_id
+      table: snowflake_query_history
+      type: count_distinct
+      baseDimensionName: query_id
+      formatOptions:
+        type: default
+        separator: default
+    - name: credits_used_cloud_services_total_credits
+      label: Total credits used
+      description: "Sum of Credits used cloud services on the table Snowflake query history "
+      sql: ${TABLE}.credits_used_cloud_services
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: credits_used_cloud_services
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: snowflake_query_history_start_time_week
+      yField:
+        - cost
+      flipAxes: false
+      showGridX: false
+    eChartsConfig:
+      yAxis:
+        - name: ""
+        - name: ""
+      legend:
+        show: false
+        type: plain
+        orient: horizontal
+      series:
+        - type: bar
+          label:
+            show: true
+            position: top
+          encode:
+            xRef:
+              field: snowflake_query_history_start_time_week
+            yRef:
+              field: cost
+          yAxisIndex: 0
+dashboardSlug: ld-sf-snowflake-usage-tracking
+spaceSlug: templates
+slug: ld-sf-snowflake-costs
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_start_time_week
+    - snowflake_query_history_credits_used_cloud_services_total_credits
+    - cost
+version: 1

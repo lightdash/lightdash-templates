@@ -1,0 +1,101 @@
+name: Top Users
+description: The top 50 Snowflake users by username, ordered by their total credits used
+tableName: snowflake_query_history
+updatedAt: "2025-01-01T00:00:00.000Z"
+metricQuery:
+  exploreName: snowflake_query_history
+  dimensions:
+    - snowflake_query_history_user_name
+  metrics:
+    - snowflake_query_history_credits_used_cloud_services_total_credits
+    - snowflake_query_history_query_id_count_of_queries
+  filters: {}
+  sorts:
+    - fieldId: snowflake_query_history_credits_used_cloud_services_total_credits
+      descending: true
+  limit: 50
+  metricOverrides: {}
+  tableCalculations:
+    - name: total_gi_b_scanned
+      displayName: Total GiB scanned
+      sql: ${snowflake_query_history.bytes_scanned_total_bytes_scanned} / 1000000000
+      format:
+        type: number
+        round: 0
+        separator: default
+      type: number
+    - name: total_cost
+      displayName: Total Cost
+      sql: >-
+        ${snowflake_query_history.credits_used_cloud_services_total_credits} * 3.0
+      format:
+        type: currency
+        currency: USD
+        separator: default
+      type: number
+  additionalMetrics:
+    - name: bytes_scanned_total_bytes_scanned
+      label: Total bytes scanned
+      description: "Sum of Bytes scanned on the table Snowflake query history "
+      sql: ${TABLE}.bytes_scanned
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: bytes_scanned
+      formatOptions:
+        type: default
+        separator: default
+    - name: credits_used_cloud_services_total_credits
+      label: Total credits used
+      description: "Sum of Credits used cloud services on the table Snowflake query history "
+      sql: ${TABLE}.credits_used_cloud_services
+      table: snowflake_query_history
+      type: sum
+      baseDimensionName: credits_used_cloud_services
+      formatOptions:
+        type: default
+        separator: default
+    - name: query_id_count_of_queries
+      label: Count of Queries
+      description: "Count distinct of Query id on the table Snowflake query history "
+      sql: ${TABLE}.query_id
+      table: snowflake_query_history
+      type: count_distinct
+      baseDimensionName: query_id
+      formatOptions:
+        type: default
+        separator: default
+  customDimensions: []
+chartConfig:
+  type: table
+  config:
+    columns:
+      snowflake_query_history_credits_used_cloud_services_total_credits:
+        visible: false
+      snowflake_query_history_bytes_scanned_total_bytes_scanned:
+        visible: false
+    metricsAsRows: false
+    showSubtotals: false
+    hideRowNumbers: false
+    showTableNames: false
+    showResultsTotal: false
+    showRowCalculation: false
+    showColumnCalculation: false
+    conditionalFormattings:
+      - color: "#7262FF"
+        rules:
+          - id: 78575e4f-2db7-41f2-9959-db9f92a0133f
+            values: []
+            operator: equals
+        target:
+          fieldId: snowflake_query_history_credits_used_cloud_services_total_credits
+dashboardSlug: ld-sf-snowflake-usage-tracking
+slug: ld-sf-top-users
+spaceSlug: templates
+tableConfig:
+  columnOrder:
+    - snowflake_query_history_user_name
+    - snowflake_query_history_credits_used_cloud_services_total_credits
+    - total_cost
+    - total_gi_b_scanned
+    - snowflake_query_history_query_id_count_of_queries
+version: 1
