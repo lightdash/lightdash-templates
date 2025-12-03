@@ -26,4 +26,4 @@ This repo is organized by data type or domain (e.g., bigquery-usage-tracking). E
 
 ## Content as code 
 
-For more details on how to extend your dashboards, metrics, or charts through version control, check out the [Content as Code docs](https://docs.lightdash.com/references/content-as-code/). Happy templating! 🎉
+For more details on how to extend your dashboards, metrics, or charts through version control, check out the [Dashboards as Code docs](https://docs.lightdash.com/references/dashboards-as-code). Happy templating! 🎉
